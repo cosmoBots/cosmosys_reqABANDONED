@@ -5,3 +5,4 @@
 /ctrldoc/rm_my_id.ods
 /cfg/configfile_req.py
 /cfg/configfile_arch.py
+*.pyc
