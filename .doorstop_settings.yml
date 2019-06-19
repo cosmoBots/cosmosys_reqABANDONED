@@ -1,0 +1,19 @@
+custom_attributes:
+    ReqRationale: '{TODO} ¡Escribir las razones!'
+    RqLevel: 'Info'
+    RqSrc: ''
+    RqTitle: ''
+    RqTarget: 'None'
+    RqType: 'Info'
+    BDId: ''
+    BDURL: ''
+    RqParent: ''
+    RqChapter: ''
+    RqTarget: ''
+    RqValue: ''
+    RqVar: ''
+    RqStatus: ''
+    
+published_custom_attributes: ['RqChapter','BDId','BDURL','RqTitle','RqParent','RqLevel','RqType','RqSrc','RqTarget','RqVar','RqValue','RqStatus','ReqRationale']
+custom_attr_format_string: '- **{}:** {}'
+required_version: 'NRT Doorstop v1.5.1'
