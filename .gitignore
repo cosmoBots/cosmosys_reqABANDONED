@@ -6,3 +6,4 @@
 /cfg/configfile_req.py
 /cfg/configfile_arch.py
 *.pyc
+/.ipynb_checkpoints

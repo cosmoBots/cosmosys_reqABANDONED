@@ -38,41 +38,51 @@ prj_graphc.render()
 '''
 
 
-def draw_postpropagation(redmine,server_url,issue_id,graph):
+def draw_postpropagation(redmine,server_url,issue_id,graph,tracker_id):
     my_issue = redmine.issue.get(issue_id)
-    graph.node(str(my_issue.id),my_issue.subject,URL=server_url+'/issues/'+str(my_issue.id))
-    #print(my_issue.id,": ",my_issue.subject)
+    if (my_issue.tracker.id == tracker_id):
+        print("* Node post",my_issue)
+        graph.node(str(my_issue.id),my_issue.subject,URL=server_url+'/issues/'+str(my_issue.id))
+        #print(my_issue.id,": ",my_issue.subject)
 
-    my_issue_relations = redmine.issue_relation.filter(issue_id=my_issue.id)
-    #print(len(my_issue_relations))
-    my_filtered_issue_relations = list(filter(lambda x: x.issue_to_id != my_issue.id, my_issue_relations))
-    #print(len(my_filtered_issue_relations))
-    if (len(my_filtered_issue_relations)>0):
-        for r in my_filtered_issue_relations:
-            #print("\t"+r.relation_type+"\t"+str(r.issue_id)+"\t"+str(r.issue_to_id))
-            graph.edge(str(my_issue.id),str(r.issue_to_id),color="blue") 
-            draw_postpropagation(redmine,server_url,r.issue_to_id,graph)
+        my_issue_relations = redmine.issue_relation.filter(issue_id=my_issue.id)
+        #print(len(my_issue_relations))
+        my_filtered_issue_relations = list(filter(lambda x: x.issue_to_id != my_issue.id, my_issue_relations))
+        #print(len(my_filtered_issue_relations))
+        if (len(my_filtered_issue_relations)>0):
+            for r in my_filtered_issue_relations:
+                related_element = redmine.issue.get(r.issue_to_id)
+                # print("related_element: ",related_element," : ",related_element.tracker)
+                if (related_element.tracker.id == tracker_id):
+                    # print("\t"+r.relation_type+"\t"+str(r.issue_id)+"\t"+str(r.issue_to_id))
+                    graph.edge(str(my_issue.id),str(r.issue_to_id),color="blue") 
+                    draw_postpropagation(redmine,server_url,r.issue_to_id,graph,tracker_id)
+
         
     return my_issue
 
             
-def draw_prepropagation(redmine,server_url,issue_id,graph):
+def draw_prepropagation(redmine,server_url,issue_id,graph,tracker_id):
     my_issue = redmine.issue.get(issue_id)
-    graph.node(str(my_issue.id),my_issue.subject,URL=server_url+'/issues/'+str(my_issue.id))
-    #print(my_issue.id,": ",my_issue.subject)
-    
-    my_issue_relations = redmine.issue_relation.filter(issue_id=my_issue.id)
-    #print(len(my_issue_relations))
-    my_filtered_issue_relations = list(filter(lambda x: x.issue_to_id == my_issue.id, my_issue_relations))
-    #print(len(my_filtered_issue_relations))
-    if (len(my_filtered_issue_relations)>0):
-        for r in my_filtered_issue_relations:
-            #print("\t"+r.relation_type+"\t"+str(r.issue_id)+"\t"+str(r.issue_to_id))
-            graph.edge(str(r.issue_id),str(my_issue.id),color="blue") 
-            draw_prepropagation(redmine,server_url,r.issue_id,graph)
-        
-    
+    if (my_issue.tracker.id == tracker_id):
+        print("* Node pre",my_issue)
+        graph.node(str(my_issue.id),my_issue.subject,URL=server_url+'/issues/'+str(my_issue.id))
+        my_issue_relations = redmine.issue_relation.filter(issue_id=my_issue.id)
+        #print(len(my_issue_relations))
+        my_filtered_issue_relations = list(filter(lambda x: x.issue_to_id == my_issue.id, my_issue_relations))
+        #print(len(my_filtered_issue_relations))
+        if (len(my_filtered_issue_relations)>0):
+            print("len(my_filtered_issue_relations): ",len(my_filtered_issue_relations))
+            for r in my_filtered_issue_relations:
+                related_element = redmine.issue.get(r.issue_id)
+                print("related pre",related_element)
+                if (related_element.tracker.id == tracker_id):
+                    #print("\t"+r.relation_type+"\t"+str(r.issue_id)+"\t"+str(r.issue_to_id))
+                    graph.edge(str(r.issue_id),str(my_issue.id),color="blue")
+                    draw_prepropagation(redmine,server_url,r.issue_id,graph,tracker_id)
+
     return my_issue
+
 
 ''' Example of use 
 prj_graphd = Digraph(name=my_project.identifier+"d", format='svg', engine='dot', node_attr={'shape':'box', 'style':'filled','URL':server_url})
