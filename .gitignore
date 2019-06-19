@@ -1,5 +1,5 @@
 /RqValidation-Result.json
-/node_modules
+node_modules
 /reporting/doc
 /ctrldoc/rm_prj.ods
 /ctrldoc/rm_my_id.ods
@@ -7,3 +7,4 @@
 /cfg/configfile_arch.py
 *.pyc
 /.ipynb_checkpoints
+package-lock.json
