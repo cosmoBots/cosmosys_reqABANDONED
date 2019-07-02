@@ -1,0 +1,20 @@
+BDID: '12'
+BDURL: http://localhost:3000/issues/12
+RqChapter: SR-2.2.1.
+RqLevel: System
+RqParent: SR-0009
+RqRationale: |
+  The RD1 expresses the need of the client to keep the performance of the previous system, 95%.  The technical concept in RD3 states that our company has already the technology to provide up to 98%.
+RqSources: RD1
+RqTarget: ''
+RqTitle: Availability
+RqType: Complex
+active: true
+derived: false
+level: 1.0
+links: []
+normative: true
+ref: ''
+reviewed: null
+text: |
+  The system shall be available an SysAvailability value greater than 95 +/- 0.1 %

@@ -1,0 +1,20 @@
+BDID: '22'
+BDURL: http://localhost:3000/issues/22
+RqChapter: SRC-2.2.1.
+RqLevel: System
+RqParent: SRC-0009
+RqRationale: |
+  The RD10 SR0004 states that the SYS subsystem provides that availability level.  The CHILD subsystem has provide at least same quality figures than SYS.
+RqSources: RD10
+RqTarget: ''
+RqTitle: Availability
+RqType: Complex
+active: true
+derived: false
+level: 1.0
+links: []
+normative: true
+ref: ''
+reviewed: null
+text: |
+  The system shall be available an SysAvailability value greater than 95 +/- 0.1 %

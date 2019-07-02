@@ -1,0 +1,19 @@
+BDID: '4'
+BDURL: http://localhost:3000/issues/4
+RqChapter: SR-1.1
+RqLevel: System
+RqParent: SR-0001
+RqRationale: The document needs a readable structure
+RqSources: ''
+RqTarget: v0.1
+RqTitle: About this document
+RqType: Info
+active: true
+derived: false
+level: 1.0
+links: []
+normative: true
+ref: ''
+reviewed: null
+text: |
+  The SYS system has to fulfill the requirements in this document.

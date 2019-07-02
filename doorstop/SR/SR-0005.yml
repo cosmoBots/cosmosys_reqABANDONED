@@ -1,0 +1,22 @@
+BDID: '7'
+BDURL: http://localhost:3000/issues/7
+RqChapter: SR-2.1.1.
+RqLevel: System
+RqParent: SR-0004
+RqRationale: |
+  The RD1 expresses the need of the client to increase the performance of the previous system, and states that a desiderable value for the next system to acquire is 30 fps.  The technical concept in RD2 states that our company has already the technology to arrive up to 32 fps.
+RqSources: |
+  RD1
+  RD2
+RqTarget: ''
+RqTitle: Speed
+RqType: Complex
+active: true
+derived: false
+level: 1.0
+links: []
+normative: true
+ref: ''
+reviewed: null
+text: |
+  The system shall operate at an SysSpeed greater than 30 +/- 0.01 fps

@@ -8,3 +8,5 @@ node_modules
 *.pyc
 /.ipynb_checkpoints
 package-lock.json
+doorstop/public
+

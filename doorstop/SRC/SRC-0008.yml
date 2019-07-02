@@ -1,0 +1,20 @@
+BDID: '20'
+BDURL: http://localhost:3000/issues/20
+RqChapter: SRC-2.1.4.
+RqLevel: Derived
+RqParent: SRC-0004
+RqRationale: Derived from RD0 SRC0005.
+RqSources: RD0
+RqTarget: ''
+RqTitle: Detector controller
+RqType: Sw
+active: true
+derived: false
+level: 1.0
+links:
+- SRC-0005: null
+normative: true
+ref: ''
+reviewed: null
+text: |
+  The detector controller shall be able to operate at DtcCtrlSpeed greater than 32 +/- 0.01 fps
