@@ -9,8 +9,12 @@ RqSubject: SR
 RqTarget: v0.1
 RqTitle: Parent system requirements
 RqType: ''
-settings:
-  digits: 3
-  prefix: SR-
-  sep: ''
-text: Parent system requirements
+active: true
+derived: false
+level: 1.0
+links: []
+normative: true
+ref: ''
+reviewed: null
+text: |
+  Parent system requirements

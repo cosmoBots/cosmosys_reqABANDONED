@@ -9,9 +9,12 @@ RqSubject: SRC
 RqTarget: ''
 RqTitle: Child system requirements
 RqType: ''
-settings:
-  digits: 3
-  parent: SR-
-  prefix: SRC-
-  sep: ''
-text: Child system requirements
+active: true
+derived: false
+level: 1.0
+links: []
+normative: true
+ref: ''
+reviewed: null
+text: |
+  Child system requirements

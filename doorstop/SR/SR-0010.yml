@@ -6,6 +6,7 @@ RqParent: SR-0009
 RqRationale: |
   The RD1 expresses the need of the client to keep the performance of the previous system, 95%.  The technical concept in RD3 states that our company has already the technology to provide up to 98%.
 RqSources: RD1
+RqSubject: SR-0010
 RqTarget: ''
 RqTitle: Availability
 RqType: Complex

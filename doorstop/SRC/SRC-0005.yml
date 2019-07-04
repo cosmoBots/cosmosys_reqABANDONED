@@ -6,6 +6,7 @@ RqParent: SRC-0004
 RqRationale: |
   The RD10 SR0004 states that the SYS subsystem is operating at that speed.  The CHILD subsystem has tao operate at the same speed.
 RqSources: RD10
+RqSubject: SRC-0005
 RqTarget: ''
 RqTitle: Speed
 RqType: Complex

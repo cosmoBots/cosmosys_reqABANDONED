@@ -9,6 +9,7 @@ RqSources: |
   RD0
   RD2
   RD3
+RqSubject: SR-0007
 RqTarget: ''
 RqTitle: Detector sensitivity
 RqType: Hw

@@ -5,6 +5,7 @@ RqLevel: System
 RqParent: SRC-0001
 RqRationale: The document needs a readable structure
 RqSources: ''
+RqSubject: SRC-0002
 RqTarget: ''
 RqTitle: About this document
 RqType: Info

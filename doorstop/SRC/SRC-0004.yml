@@ -5,6 +5,7 @@ RqLevel: System
 RqParent: SRC-0003
 RqRationale: The document needs a readable structure
 RqSources: ''
+RqSubject: SRC-0004
 RqTarget: ''
 RqTitle: Functional requirements
 RqType: Info

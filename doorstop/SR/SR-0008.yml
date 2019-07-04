@@ -5,6 +5,7 @@ RqLevel: Derived
 RqParent: SR-0004
 RqRationale: Derived from RD0 SR0005.
 RqSources: RD0
+RqSubject: SR-0008
 RqTarget: ''
 RqTitle: Detector controller
 RqType: Sw

@@ -5,6 +5,7 @@ RqLevel: System
 RqParent: SR-0003
 RqRationale: The document needs a readable structure
 RqSources: ''
+RqSubject: SR-0009
 RqTarget: ''
 RqTitle: Non-functional requirements
 RqType: Info
