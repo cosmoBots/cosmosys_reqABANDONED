@@ -10,4 +10,6 @@ node_modules
 package-lock.json
 doorstop/public
 downloading/RqDownload.ods
-
+!/doorstop/.gitignore
+!readme.txt
+!/doorstop/.doortop_settings.yml
