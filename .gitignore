@@ -13,3 +13,4 @@ downloading/RqDownload.ods
 !/doorstop/.gitignore
 !readme.txt
 !/doorstop/.doortop_settings.yml
+/doorstop
