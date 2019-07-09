@@ -11,6 +11,6 @@ package-lock.json
 doorstop/public
 downloading/RqDownload.ods
 !/doorstop/.gitignore
-!readme.txt
-!/doorstop/.doortop_settings.yml
+!/doorstop/.doorstop_settings.yml
+!/doorstop/readme.txt
 /doorstop
