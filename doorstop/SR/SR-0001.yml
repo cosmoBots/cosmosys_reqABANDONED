@@ -1,0 +1,20 @@
+BDID: '3'
+BDURL: http://localhost:5555/issues/3
+RqChapter: SR-1.
+RqLevel: System
+RqParent: SR
+RqRationale: The document needs a readable structure
+RqSources: ''
+RqSubject: SR-0001
+RqTarget: v0.1
+RqTitle: Introduction
+RqType: Info
+active: true
+derived: false
+level: 1.0
+links: []
+normative: true
+ref: ''
+reviewed: null
+text: |
+  This document is the root document for the requirements of the system SYS

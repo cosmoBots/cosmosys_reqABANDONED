@@ -1,0 +1,20 @@
+BDID: '5'
+BDURL: http://localhost:5555/issues/5
+RqChapter: SR-2.
+RqLevel: System
+RqParent: SR
+RqRationale: The document needs a readable structure
+RqSources: ''
+RqSubject: SR-0003
+RqTarget: v0.1
+RqTitle: Requirements
+RqType: Info
+active: true
+derived: false
+level: 1.0
+links: []
+normative: true
+ref: ''
+reviewed: null
+text: |
+  This section includes the documents of the SYS system.  It is divided into two main sections: functional requirements and non-functional requirements.

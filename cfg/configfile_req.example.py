@@ -51,6 +51,10 @@ req_upload_target_column = 12
 req_upload_parent_column = 7
 req_upload_status_column = 16
 
+req_upload_version_column = 5
+req_upload_version_startrow = 1
+req_upload_version_endrow = 25
+
 req_status_maturity = {
     'RqDraft': 1,
     'RqStable': 2,

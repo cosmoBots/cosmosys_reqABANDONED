@@ -1,0 +1,20 @@
+BDID: '6'
+BDURL: http://localhost:5555/issues/6
+RqChapter: SR-2.1.
+RqLevel: System
+RqParent: SR-0003
+RqRationale: The document needs a readable structure
+RqSources: ''
+RqSubject: SR-0004
+RqTarget: v0.1
+RqTitle: Functional requirements
+RqType: Info
+active: true
+derived: false
+level: 1.0
+links: []
+normative: true
+ref: ''
+reviewed: null
+text: |
+  This section defines the functional requirements of the SYS system.  These functional requirements are the main reason why the SYS system has to be developed.

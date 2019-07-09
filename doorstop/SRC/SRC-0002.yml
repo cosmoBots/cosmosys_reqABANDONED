@@ -1,0 +1,20 @@
+BDID: '14'
+BDURL: http://localhost:5555/issues/14
+RqChapter: SRC-1.1
+RqLevel: System
+RqParent: SRC-0001
+RqRationale: The document needs a readable structure
+RqSources: ''
+RqSubject: SRC-0002
+RqTarget: v0.1
+RqTitle: About this document
+RqType: Info
+active: true
+derived: false
+level: 1.0
+links: []
+normative: true
+ref: ''
+reviewed: null
+text: |
+  The CHILD system has to fulfill the requirements in this document.

@@ -1,0 +1,12 @@
+BDID: '1'
+BDURL: http://localhost:5555/issues/1
+RqChapter: SR-
+RqParent: ''
+RqSubject: SR
+RqTarget: v1.0
+RqTitle: Parent system requirements
+settings:
+  digits: 3
+  prefix: SR-
+  sep: ''
+text: Parent system requirements

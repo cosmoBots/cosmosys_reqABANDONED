@@ -1,0 +1,26 @@
+BDID: '19'
+BDURL: http://localhost:5555/issues/19
+RqChapter: SRC-2.1.3.
+RqLevel: Derived
+RqParent: SRC-0004
+RqRationale: |
+  Derived from RD0 SRC0005 and SRC0006.  The RD2 and RD3 technical concepts show algorithms that relate the estimated achievable framerates and contrast depending on the sensitivity of the detector.  The sensitivity value at this requirement is the result with an overdimensioning of of +1000 wtf for contingency.
+RqSources: |
+  RD0
+  RD2
+  RD3
+RqSubject: SRC-0007
+RqTarget: v0.1
+RqTitle: Detector sensitivity
+RqType: Hw
+active: true
+derived: false
+level: 1.0
+links:
+- SRC-0005: null
+- SRC-0006: null
+normative: true
+ref: ''
+reviewed: null
+text: |
+  The detector shall provide a DtcSensitivity greater than 3000 +/- 2 wtf

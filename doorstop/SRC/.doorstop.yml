@@ -1,0 +1,13 @@
+BDID: '2'
+BDURL: http://localhost:5555/issues/2
+RqChapter: SRC-
+RqParent: SR
+RqSubject: SRC
+RqTarget: v1.0
+RqTitle: Child system requirements
+settings:
+  digits: 3
+  parent: SR-
+  prefix: SRC-
+  sep: ''
+text: Child system requirements

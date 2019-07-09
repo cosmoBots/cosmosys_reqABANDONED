@@ -1,0 +1,23 @@
+BDID: '8'
+BDURL: http://localhost:5555/issues/8
+RqChapter: SR-2.1.2.
+RqLevel: System
+RqParent: SR-0004
+RqRationale: |
+  The RD1 expresses the need of the client to keep the performance of the previous system, 20%.  The technical concept in RD3 states that our company has already the technology to provide up to 30%.
+RqSources: |
+  RD1
+  RD3
+RqSubject: SR-0006
+RqTarget: v0.1
+RqTitle: Contrast
+RqType: Complex
+active: true
+derived: false
+level: 1.0
+links: []
+normative: true
+ref: ''
+reviewed: null
+text: |
+  The system shall provide images which ImgContrast is greater than 20 +/-  1 %
