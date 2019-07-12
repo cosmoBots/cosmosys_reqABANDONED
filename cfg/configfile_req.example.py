@@ -21,7 +21,8 @@ req_chapter_cf_id = 6 									# The numerical ID of the custom_field used to st
 req_prefix_cf_id = 9									# The numerical ID of the custom_field used to store the requirements document prefix of the requirement
 
 # This section defines the connection between the CosmoSys_Req tools and the OpenDocument spreadsheet used for importing requirements
-req_upload_file_name = "RqUpload.ods"					
+req_upload_file_name = "./uploading/RqUpload.ods"
+req_download_file_name = "./downloading/RqDownload.ods"
 req_upload_start_column = 0
 req_upload_end_column = 16
 req_upload_start_row = 0
@@ -54,6 +55,15 @@ req_upload_status_column = 16
 req_upload_version_column = 5
 req_upload_version_startrow = 1
 req_upload_version_endrow = 25
+
+req_download_doc_row = 0
+req_download_doc_name_column = 1
+req_download_doc_prefix_column = 10
+req_download_doc_parent_column = 8
+req_download_bdid_column = 3
+req_download_rqid_column = 1
+req_download_url_row = 0
+req_download_url_column = 1
 
 req_status_maturity = {
     'RqDraft': 1,
