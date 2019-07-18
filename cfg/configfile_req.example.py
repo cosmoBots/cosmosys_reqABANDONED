@@ -75,3 +75,5 @@ req_status_maturity = {
     'RqErased': 1,
     'RqZombie': 0
 }
+
+img_dir = "reporting/doc/img/"
