@@ -16,9 +16,11 @@ req_type_cf_id = 2										# The numerical ID of the custom_field used to store
 req_level_cf_id = 3									# The numerical ID of the custom_field used to store the RqLevel of the requirement
 req_rationale_cf_id = 4								# The numerical ID of the custom_field used to store the RqRationale of the requirement
 req_value_cf_id = 8									# The numerical ID of the custom_field used to store the RqValue of the requirement
-req_var_cf_id = 7										# The numerical ID of the custom_field used to store the RqVar of the requirement
-req_chapter_cf_id = 6 									# The numerical ID of the custom_field used to store the RqChapter of the requirement
-req_prefix_cf_id = 9									# The numerical ID of the custom_field used to store the requirements document prefix of the requirement
+req_var_cf_id = 7									# The numerical ID of the custom_field used to store the RqVar of the requirement
+req_chapter_cf_id = 6 								# The numerical ID of the custom_field used to store the RqChapter of the requirement
+req_prefix_cf_id = 9								# The numerical ID of the custom_field used to store the requirements document prefix of the requirement
+req_diagrams_cf_id = 14									# The numerical ID of the custom_field used to store the diagrams graphviz description
+reqprj_diagrams_cf_id = 17									# The numerical ID of the custom_field used to store the diagrams graphviz description of the whole project
 
 # This section defines the connection between the CosmoSys_Req tools and the OpenDocument spreadsheet used for importing requirements
 req_upload_file_name = "./uploading/RqUpload.ods"

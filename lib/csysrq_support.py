@@ -1,19 +1,25 @@
-def draw_descendants(redmine,server_url,issue_id,graph):
+def draw_descendants(redmine,server_url,issue_id,graph,req_title_cf_id):
     my_issue = redmine.issue.get(issue_id)
-    graph.node(str(my_issue.id),my_issue.subject,URL=server_url+'/issues/'+str(my_issue.id))
+    title_str = my_issue.custom_fields.get(req_title_cf_id).value
+    nodelabel = "{"+my_issue.subject+"|"+title_str+"}"
+    graph.node(str(my_issue.id),nodelabel,URL=server_url+'/issues/'+str(my_issue.id),tooltip=my_issue.description)
     #print(my_issue.id,": ",my_issue.subject)
     for child in my_issue.children:
         #print(child.id,": ",child.subject)
-        graph.node(str(child.id),child.subject,URL=server_url+'/issues/'+str(child.id))
+        my_child = redmine.issue.get(child.id)
+        title_str = my_child.custom_fields.get(req_title_cf_id).value
+        nodelabel = "{"+my_child.subject+"|"+title_str+"}"
+        graph.node(str(child.id),nodelabel,URL=server_url+'/issues/'+str(child.id),tooltip=my_issue.description)
         graph.edge(str(my_issue.id),str(child.id))
-        draw_descendants(redmine,server_url,child.id,graph)
+        draw_descendants(redmine,server_url,child.id,graph,req_title_cf_id)
     
     return my_issue
 
-def draw_ancestors(redmine,server_url,issue_id,child_id,graph):
+def draw_ancestors(redmine,server_url,issue_id,child_id,graph,req_title_cf_id):
     my_issue = redmine.issue.get(issue_id)
-    #print("THIS : "+str(issue_id))
-    graph.node(str(my_issue.id),my_issue.subject,URL=server_url+'/issues/'+str(my_issue.id))
+    title_str = my_issue.custom_fields.get(req_title_cf_id).value
+    nodelabel = "{"+my_issue.subject+"|"+title_str+"}"
+    graph.node(str(my_issue.id),nodelabel,URL=server_url+'/issues/'+str(my_issue.id),tooltip=my_issue.description)
     graph.edge(str(my_issue.id),str(child_id))
     # https://stackoverflow.com/questions/37543513/read-the-null-value-in-python-redmine-api
     # Short answer: Use getattr(id, 'assigned_to', None) instead of id.assigned_to.
@@ -21,28 +27,18 @@ def draw_ancestors(redmine,server_url,issue_id,child_id,graph):
     #print("my_issue: "+str(my_issue))
     if current_parent is not None:
         #print("parent: "+str(current_parent))
-        draw_ancestors(redmine,server_url,current_parent,issue_id,graph)
+        draw_ancestors(redmine,server_url,current_parent,issue_id,graph,req_title_cf_id)
     
     return my_issue
 
-'''  Ejemplo de uso
-target_issue_id = 540
-prj_graphc = Digraph(name=my_project.identifier+"c", format='svg', engine='dot', node_attr={'shape':'box', 'style':'filled','URL':server_url})
-target_issue = draw_descendants(redmine,server_url,target_issue_id,prj_graphc)
-if target_issue.parent is not None:
-    print("parent 1: "+str(target_issue.parent))
-    draw_ancestors(redmine,server_url,target_issue.parent,target_issue_id,prj_graphc)
 
-prj_graphc.node(str(target_issue.id),target_issue.subject,URL=server_url+'/issues/'+str(target_issue.id),color='green')
-prj_graphc.render()
-'''
-
-
-def draw_postpropagation(redmine,server_url,issue_id,graph,tracker_id):
+def draw_postpropagation(redmine,server_url,issue_id,graph,tracker_id,req_title_cf_id):
     my_issue = redmine.issue.get(issue_id)
     if (my_issue.tracker.id == tracker_id):
         print("* Node post",my_issue)
-        graph.node(str(my_issue.id),my_issue.subject,URL=server_url+'/issues/'+str(my_issue.id))
+        title_str = my_issue.custom_fields.get(req_title_cf_id).value
+        nodelabel = "{"+my_issue.subject+"|"+title_str+"}"
+        graph.node(str(my_issue.id),nodelabel,URL=server_url+'/issues/'+str(my_issue.id),tooltip=my_issue.description)
         #print(my_issue.id,": ",my_issue.subject)
 
         my_issue_relations = redmine.issue_relation.filter(issue_id=my_issue.id)
@@ -56,17 +52,19 @@ def draw_postpropagation(redmine,server_url,issue_id,graph,tracker_id):
                 if (related_element.tracker.id == tracker_id):
                     # print("\t"+r.relation_type+"\t"+str(r.issue_id)+"\t"+str(r.issue_to_id))
                     graph.edge(str(my_issue.id),str(r.issue_to_id),color="blue") 
-                    draw_postpropagation(redmine,server_url,r.issue_to_id,graph,tracker_id)
+                    draw_postpropagation(redmine,server_url,r.issue_to_id,graph,tracker_id,req_title_cf_id)
 
         
     return my_issue
 
             
-def draw_prepropagation(redmine,server_url,issue_id,graph,tracker_id):
+def draw_prepropagation(redmine,server_url,issue_id,graph,tracker_id,req_title_cf_id):
     my_issue = redmine.issue.get(issue_id)
     if (my_issue.tracker.id == tracker_id):
         print("* Node pre",my_issue)
-        graph.node(str(my_issue.id),my_issue.subject,URL=server_url+'/issues/'+str(my_issue.id))
+        title_str = my_issue.custom_fields.get(req_title_cf_id).value
+        nodelabel = "{"+my_issue.subject+"|"+title_str+"}"
+        graph.node(str(my_issue.id),nodelabel,URL=server_url+'/issues/'+str(my_issue.id),tooltip=title_str)
         my_issue_relations = redmine.issue_relation.filter(issue_id=my_issue.id)
         #print(len(my_issue_relations))
         my_filtered_issue_relations = list(filter(lambda x: x.issue_to_id == my_issue.id, my_issue_relations))
@@ -79,17 +77,6 @@ def draw_prepropagation(redmine,server_url,issue_id,graph,tracker_id):
                 if (related_element.tracker.id == tracker_id):
                     #print("\t"+r.relation_type+"\t"+str(r.issue_id)+"\t"+str(r.issue_to_id))
                     graph.edge(str(r.issue_id),str(my_issue.id),color="blue")
-                    draw_prepropagation(redmine,server_url,r.issue_id,graph,tracker_id)
+                    draw_prepropagation(redmine,server_url,r.issue_id,graph,tracker_id,req_title_cf_id)
 
     return my_issue
-
-
-''' Example of use 
-prj_graphd = Digraph(name=my_project.identifier+"d", format='svg', engine='dot', node_attr={'shape':'box', 'style':'filled','URL':server_url})
-my_issue = draw_postpropagation(redmine,server_url,target_issue_id,prj_graphd)
-draw_prepropagation(redmine,server_url,target_issue_id,prj_graphd)
-prj_graphd.node(str(my_issue.id),my_issue.subject,URL=server_url+'/issues/'+str(my_issue.id),color='green')
-
-
-prj_graphd.render()
-'''
