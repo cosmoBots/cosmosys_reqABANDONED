@@ -78,4 +78,3 @@ req_status_maturity = {
 
 img_dir = "reporting/doc/img/"
 
-diagrams_pattern = "| Hierarchy | Dependence |\n|---|---|\n| $$h  | $$d  |\n"
