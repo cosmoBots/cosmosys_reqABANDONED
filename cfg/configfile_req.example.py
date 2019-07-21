@@ -78,5 +78,7 @@ req_status_maturity = {
     'RqZombie': 0
 }
 
+req_maturity_propagation = ['RqZombie','RqDraft','RqStable','RqApproved']
+
 img_dir = "reporting/doc/img/"
 
