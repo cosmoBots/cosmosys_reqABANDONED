@@ -80,3 +80,27 @@ def draw_prepropagation(redmine,server_url,issue_id,graph,tracker_id,req_title_c
                     draw_prepropagation(redmine,server_url,r.issue_id,graph,tracker_id,req_title_cf_id)
 
     return my_issue
+
+
+######### generic utils
+
+import shutil
+import os
+
+def copy_and_replace_dir(from_path, to_path):
+    if os.path.exists(to_path):
+        shutil.rmtree(to_path)
+        print("existía y lo borré ya")
+
+    shutil.copytree(from_path, to_path)
+    
+def copy_dir(src, dest):
+    try:
+        shutil.copytree(src, dest)
+        
+    # Directories are the same
+    except shutil.Error as e:
+        print('Directory not copied. Error: %s' % e)
+    # Any error saying that the directory doesn't exist
+    except OSError as e:
+        print('Directory not copied. Error: %s' % e)
