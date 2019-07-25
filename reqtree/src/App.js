@@ -78,7 +78,7 @@ export default class App extends React.Component {
  };
 
   retrieveTree = () => {
-    axios.get(`http://localhost:5557/cosmosys_baselines/9/execute.json?node_id=${this.props.nodeId}`)
+    axios.get(`http://localhost:5557/cosmosys_baselines/9/execute.json?node_id=${this.props.nodeId}`, { crossdomain: true })
       .then(res => {
         console.log("reqtreedata.json", res.data);
         this.setState({
