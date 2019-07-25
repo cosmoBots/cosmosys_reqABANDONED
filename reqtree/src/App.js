@@ -1,7 +1,9 @@
 import React from 'react';
 import SortableTree, { toggleExpandedForAll } from 'react-sortable-tree';
 
-import treeData from './treeData';
+import axios from 'axios';
+
+//import treeData from './treeData';
 
 const maxDepth = 5;
 
@@ -18,16 +20,119 @@ const alertNodeInfo = ({ node, path, treeIndex }) => {
   );
 };
 
+// Renders a basic button, disabled with the "disabled" property
+function Button(props) {
+  return (
+      <button disabled={props.disabled} onClick={!props.disabled?props.onClick:null}>{props.label}</button>
+    );
+}
+
+function openActionWindow(url) {
+  return window.open(url, 'RedmineAction', 'height=250,width=250');
+}
+
+function ActionButton(props) {
+  const styles = ['btn', 'btn-outline-success', props.type];
+  return (
+    <button
+                  className={styles} 
+                  style={{
+                    verticalAlign: 'middle',
+                  }}
+                  disabled={props.disabled}
+                  onClick={!props.disabled?props.onClick:null}>
+                  {props.label}
+                </button>
+    );
+}
+
+function simplifyNode(nodes) {
+
+  return nodes.reduce((acc, n) => {
+      //console.log("simplifyNode()", acc, n)
+
+      var obj = {
+        id: n.id
+      }
+
+      if (n.children && n.children.length ) {
+        obj.children = simplifyNode(n.children);
+      }
+
+      acc.push(obj);
+      return acc;
+    }, []);
+}
+
 export default class App extends React.Component {
   state = {
     searchString: '',
     searchFocusIndex: 0,
     searchFoundCount: null,
-    treeData,
+    treeData: null,
+    treeHasChanges: false,
   };
 
-  handleTreeOnChange = treeData => {
-    this.setState({ treeData });
+ componentDidMount = () => {
+    this.retrieveTree();
+ };
+
+  retrieveTree = () => {
+    axios.get(`http://localhost:5557/cosmosys_baselines/9/execute.json?node_id=${this.props.nodeId}`)
+      .then(res => {
+        console.log("reqtreedata.json", res.data);
+        this.setState({
+          treeData: res.data,
+          returnUrl: res.data[0].return_url
+        });
+      })
+  };
+
+  refreshTree = () => {
+    this.setState({
+              treeData: null,
+              actionWindow: null,
+              actionNode: null,
+            }, this.retrieveTree
+          );
+  }
+
+  onActionButtonClick = (node, url) => {
+    const actionWindow = openActionWindow(url);
+
+    this.setState( {
+      actionWindow: actionWindow,
+      actionNode: node
+    });
+
+    var timer = setInterval(() => {   
+      if (actionWindow.closed) {  
+          clearInterval(timer);  
+          this.refreshTree();
+      }  
+    }, 500); 
+  };
+
+  doCommitJSON = () => {
+    console.log("hola commit!", this.state.returnUrl, simplifyNode(this.state.treeData));
+
+    axios.post(this.state.returnUrl, { 
+          structure: simplifyNode(this.state.treeData)
+        })
+      .then(res => {
+        console.log(res);
+        console.log(res.data);
+
+        this.refreshTree();
+      })
+  };
+
+  handleTreeOnChange = (treeData) => {
+    this.setState({
+      treeData: treeData,
+      treeHasChanges: true
+    });
+    console.log(treeData);
   };
 
   handleSearchOnChange = e => {
@@ -67,40 +172,21 @@ export default class App extends React.Component {
     }));
   };
 
-  render() {
-    const {
-      treeData,
-      searchString,
-      searchFocusIndex,
-      searchFoundCount,
-    } = this.state;
+  renderTree = () => {
 
-    return (
-      <div className="wrapper">
-        <div className="bar-wrapper">
-          <button onClick={this.toggleNodeExpansion.bind(this, true)}>
-            Expand all
-          </button>
-          <button
-            className="collapse"
-            onClick={this.toggleNodeExpansion.bind(this, false)}
-          >
-            Collapse all
-          </button>
-          <label>Search: </label>
-          <input onChange={this.handleSearchOnChange} />
-          <button className="previous" onClick={this.selectPrevMatch}>
-            Previous
-          </button>
-          <button className="next" onClick={this.selectNextMatch}>
-            Next
-          </button>
-          <label>
-            {searchFocusIndex} / {searchFoundCount}
-          </label>
-        </div>
-        <div className="tree-wrapper">
-          <SortableTree
+console.log("renderTree()", !!this.state.treeData)
+
+    if (this.state.treeData) {
+
+      const {
+        treeData,
+        treeHasChanges,
+        searchString,
+        searchFocusIndex,
+      } = this.state;
+
+      return (
+        <SortableTree
             treeData={treeData}
             onChange={this.handleTreeOnChange}
             onMoveNode={({ node, treeIndex, path }) =>
@@ -128,18 +214,77 @@ export default class App extends React.Component {
             isVirtualized={true}
             generateNodeProps={rowInfo => ({
               buttons: [
-                <button
-                  className="btn btn-outline-success"
-                  style={{
-                    verticalAlign: 'middle',
-                  }}
-                  onClick={() => alertNodeInfo(rowInfo)}
-                >
-                  ℹ
-                </button>,
+                <ActionButton
+                  type="edit"
+                  disabled={treeHasChanges}
+                  label="Edit"
+                  onClick={() => { this.onActionButtonClick(rowInfo.node, rowInfo.node.issue_edit_url);} }
+                 />,
+                <ActionButton
+                  type="new"
+                  disabled={treeHasChanges}
+                  label="New"
+                  onClick={() => { this.onActionButtonClick(rowInfo.node, rowInfo.node.issue_new_url);} }
+                 />,
+                <ActionButton
+                  type="show"
+                  disabled={treeHasChanges}
+                  label="Show"
+                  onClick={() => { this.onActionButtonClick(rowInfo.node, rowInfo.node.issue_show_url);} }
+                 />,
               ],
             })}
           />
+        );
+      } else {
+        return (<span>Loading tree...</span>);
+      }
+  };
+
+  renderVeil = (content) => {
+    if (this.state.actionWindow) {
+      return (content)
+    } else {
+      return (content)
+    }
+  };
+
+  render() {
+console.log("render()")
+
+      const {
+        searchFocusIndex,
+        searchFoundCount,
+        actionWindow,
+      } = this.state;
+
+    return this.renderVeil(
+      <div className='wrapper'>
+        <div className="bar-wrapper">
+          <button onClick={this.toggleNodeExpansion.bind(this, true)}>
+            Expand all
+          </button>
+          <button
+            className="collapse"
+            onClick={this.toggleNodeExpansion.bind(this, false)}
+          >
+            Collapse all
+          </button>
+          <label>Search: </label>
+          <input onChange={this.handleSearchOnChange} />
+          <button className="previous" onClick={this.selectPrevMatch}>
+            Previous
+          </button>
+          <button className="next" onClick={this.selectNextMatch}>
+            Next
+          </button>
+          <label>
+            {searchFocusIndex} / {searchFoundCount}
+          </label>
+          <Button label="commit" disabled={!this.state.treeHasChanges} onClick={this.doCommitJSON}/>
+        </div>
+        <div className="tree-wrapper">
+          { this.renderTree() }
         </div>
       </div>
     );
