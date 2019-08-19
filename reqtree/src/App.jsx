@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import SortableTree, { toggleExpandedForAll } from 'react-sortable-tree';
 
 import axios from 'axios';
@@ -64,7 +64,7 @@ function simplifyNode(nodes) {
     }, []);
 }
 
-export default class App extends React.Component {
+export default class App extends  Component {
   state = {
     searchString: '',
     searchFocusIndex: 0,
@@ -78,9 +78,9 @@ export default class App extends React.Component {
  };
 
   retrieveTree = () => {
-    axios.get(`http://localhost:5557/cosmosys_baselines/9/execute.json?node_id=${this.props.nodeId}`, { crossdomain: true })
+    axios.get(`${window.location.pathname}.json`, { crossdomain: true })
       .then(res => {
-        console.log("reqtreedata.json", res.data);
+        //console.log("reqtreedata.json", res.data);
         this.setState({
           treeData: res.data,
           returnUrl: res.data[0].return_url
@@ -186,55 +186,57 @@ console.log("renderTree()", !!this.state.treeData)
       } = this.state;
 
       return (
-        <SortableTree
-            treeData={treeData}
-            onChange={this.handleTreeOnChange}
-            onMoveNode={({ node, treeIndex, path }) =>
-              global.console.debug(
-                'node:',
-                node,
-                'treeIndex:',
-                treeIndex,
-                'path:',
-                path
-              )
-            }
-            maxDepth={maxDepth}
-            searchQuery={searchString}
-            searchFocusOffset={searchFocusIndex}
-            canDrag={({ node }) => !node.noDragging}
-            canDrop={({ nextParent }) => !nextParent || !nextParent.noChildren}
-            searchFinishCallback={matches =>
-              this.setState({
-                searchFoundCount: matches.length,
-                searchFocusIndex:
-                  matches.length > 0 ? searchFocusIndex % matches.length : 0,
-              })
-            }
-            isVirtualized={true}
-            generateNodeProps={rowInfo => ({
-              buttons: [
-                <ActionButton
-                  type="edit"
-                  disabled={treeHasChanges}
-                  label="Edit"
-                  onClick={() => { this.onActionButtonClick(rowInfo.node, rowInfo.node.issue_edit_url);} }
-                 />,
-                <ActionButton
-                  type="new"
-                  disabled={treeHasChanges}
-                  label="New"
-                  onClick={() => { this.onActionButtonClick(rowInfo.node, rowInfo.node.issue_new_url);} }
-                 />,
-                <ActionButton
-                  type="show"
-                  disabled={treeHasChanges}
-                  label="Show"
-                  onClick={() => { this.onActionButtonClick(rowInfo.node, rowInfo.node.issue_show_url);} }
-                 />,
-              ],
-            })}
-          />
+        <div style={{ height: '100vh' }}>
+          <SortableTree
+              treeData={treeData}
+              onChange={this.handleTreeOnChange}
+              onMoveNode={({ node, treeIndex, path }) =>
+                global.console.debug(
+                  'node:',
+                  node,
+                  'treeIndex:',
+                  treeIndex,
+                  'path:',
+                  path
+                )
+              }
+              maxDepth={maxDepth}
+              searchQuery={searchString}
+              searchFocusOffset={searchFocusIndex}
+              canDrag={({ node }) => !node.noDragging}
+              canDrop={({ nextParent }) => !nextParent || !nextParent.noChildren}
+              searchFinishCallback={matches =>
+                this.setState({
+                  searchFoundCount: matches.length,
+                  searchFocusIndex:
+                    matches.length > 0 ? searchFocusIndex % matches.length : 0,
+                })
+              }
+              isVirtualized={true}
+              generateNodeProps={rowInfo => ({
+                buttons: [
+                  <ActionButton
+                    type="edit"
+                    disabled={treeHasChanges}
+                    label="Edit"
+                    onClick={() => { this.onActionButtonClick(rowInfo.node, rowInfo.node.issue_edit_url);} }
+                  />,
+                  <ActionButton
+                    type="new"
+                    disabled={treeHasChanges}
+                    label="New"
+                    onClick={() => { this.onActionButtonClick(rowInfo.node, rowInfo.node.issue_new_url);} }
+                  />,
+                  <ActionButton
+                    type="show"
+                    disabled={treeHasChanges}
+                    label="Show"
+                    onClick={() => { this.onActionButtonClick(rowInfo.node, rowInfo.node.issue_show_url);} }
+                  />,
+                ],
+              })}
+            />
+          </div>
         );
       } else {
         return (<span>Loading tree...</span>);
