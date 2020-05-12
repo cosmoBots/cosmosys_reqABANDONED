@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import SortableTree, { toggleExpandedForAll } from 'react-sortable-tree';
 
 import axios from 'axios';
+import { treeUrl, maxDepth, returnUrl } from './config';
 
 //import treeData from './treeData';
 
-const maxDepth = 5;
+const URL_TREE = treeUrl;
 
 const alertNodeInfo = ({ node, path, treeIndex }) => {
   const objectString = Object.keys(node)
@@ -49,8 +50,7 @@ function ActionButton(props) {
 function simplifyNode(nodes) {
 
   return nodes.reduce((acc, n) => {
-      //console.log("simplifyNode()", acc, n)
-
+      
       var obj = {
         id: n.id
       }
@@ -71,6 +71,7 @@ export default class App extends  Component {
     searchFoundCount: null,
     treeData: null,
     treeHasChanges: false,
+    error: null
   };
 
  componentDidMount = () => {
@@ -78,12 +79,19 @@ export default class App extends  Component {
  };
 
   retrieveTree = () => {
-    axios.get(`${window.location.pathname}.json`, { crossdomain: true })
+    axios.get(URL_TREE, { crossdomain: true })
       .then(res => {
-        //console.log("reqtreedata.json", res.data);
+        let data = res.data
+        let url = data[0] ? data[0][returnUrl] ? data[0][returnUrl] : null : null
         this.setState({
-          treeData: res.data,
-          returnUrl: res.data[0].return_url
+          treeData: data,
+          returnUrl: url ? url : '/'
+        });
+      })
+      .catch(err => {
+        console.warn(err)
+        this.setState({
+          error: 'Json not found.'
         });
       })
   };
@@ -114,15 +122,10 @@ export default class App extends  Component {
   };
 
   doCommitJSON = () => {
-    console.log("hola commit!", this.state.returnUrl, simplifyNode(this.state.treeData));
-
     axios.post(this.state.returnUrl, { 
           structure: simplifyNode(this.state.treeData)
         })
       .then(res => {
-        console.log(res);
-        console.log(res.data);
-
         this.refreshTree();
       })
   };
@@ -132,7 +135,6 @@ export default class App extends  Component {
       treeData: treeData,
       treeHasChanges: true
     });
-    console.log(treeData);
   };
 
   handleSearchOnChange = e => {
@@ -173,8 +175,6 @@ export default class App extends  Component {
   };
 
   renderTree = () => {
-
-console.log("renderTree()", !!this.state.treeData)
 
     if (this.state.treeData) {
 
@@ -239,7 +239,12 @@ console.log("renderTree()", !!this.state.treeData)
           </div>
         );
       } else {
-        return (<span>Loading tree...</span>);
+        if (!this.state.error) {
+          return (<span>Loading tree...</span>);
+        } else {
+          return (<span>{this.state.error}</span>);
+        }
+
       }
   };
 
@@ -252,8 +257,6 @@ console.log("renderTree()", !!this.state.treeData)
   };
 
   render() {
-console.log("render()")
-
       const {
         searchFocusIndex,
         searchFoundCount,

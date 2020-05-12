@@ -1,6 +1,6 @@
 {
   "name": "reqtree",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Req Tree plugin",
   "main": "index.js",
   "scripts": {
